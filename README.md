@@ -26,7 +26,7 @@ This guide covers the **complete journey** from raw text to a trained LLM:
 - Training process (gradient descent, weights)
 - How it all fits together
 
-Let's begin! 🚀
+Let's begin!
 
 ---
 
@@ -164,7 +164,7 @@ This mapping from characters/tokens to numbers is what tokenization does!
 
 ### Why Chunks?
 
-Imagine trying to memorize an entire book at once - impossible! Same with computers. They learn in small pieces called **chunks** or **blocks**.
+Imagine trying to memorize an entire book at once, impossible! Same with computers. They learn in small pieces called **chunks** or **blocks**.
 
 ### What are Blocks?
 
@@ -527,7 +527,7 @@ Imagine reading a sentence:
 
 ### The Core Idea:
 
-Instead of processing words one by one (like old RNNs), attention lets the model look at ALL words at once and decide which ones are important!
+Instead of processing words one by one (like old RNNs - Recurrent Neural Networks that process sequentially), attention lets the model look at ALL words at once and decide which ones are important!
 
 > **Note:** For GPT-style models, attention uses **masked self-attention** (causal masking), so the model can only see previous tokens, not future ones. This is explained in detail later, but it's important to know that GPT models don't actually see "all words at once" in the full sequence—they see all previous words up to the current position.
 
@@ -1771,7 +1771,7 @@ Autoregressive Generation
 
 ## 🎉 Final Thoughts & Next Steps
 
-You're now equipped with the core understanding of how modern LLMs work — from **text → tokens → tensors → embeddings → attention → prediction**.
+You're now equipped with the core understanding of how modern LLMs work, from **text → tokens → tensors → embeddings → attention → prediction**.
 
 ### What You've Learned
 
@@ -1782,7 +1782,7 @@ Throughout this guide, you've mastered:
 - How models store knowledge (weights, not text)
 - How models generate predictions (autoregressive generation)
 
-The concepts you've learned here — attention, embeddings, Transformer blocks, and causal masking — are the foundation of all modern language models, from GPT-2 to GPT-4 and beyond.
+The concepts you've learned here i.e. attention, embeddings, Transformer blocks, and causal masking are the foundation of all modern language models, from GPT-2 to GPT-4 and beyond.
 
 ### What We Covered from "Attention is All You Need"
 
@@ -1810,7 +1810,7 @@ Now that you understand the architecture, here are paths to deepen your knowledg
 - **Read the original paper:** "Attention is All You Need" by Vaswani et al. (2017) - now you'll understand it!
 - **Explore real-world applications:** Learn how to use and deploy these models
 
-**Remember:** Building an LLM is like teaching a computer to read - it takes time, lots of data, and many iterations, but the principles are simple once you break them down! The Transformer architecture revolutionized NLP by making parallel processing of sequences possible.
+**Remember:** Building an LLM is like teaching a computer to read, it takes time, lots of data, and many iterations, but the principles are simple once you break them down! The Transformer architecture revolutionized NLP by making parallel processing of sequences possible.
 
 You now have the fundamental knowledge to understand how these models think, learn, and generate text. You can read research papers, experiment with models, and even build your own!
 
