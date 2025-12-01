@@ -6,7 +6,7 @@
 
 ## 🎯 What is This Guide About?
 
-This guide explains how **Transformer-based Large Language Models (LLMs)** work, like GPT-2, GPT-3, GPT-4, and others. These models are built on the **Transformer architecture** introduced in the groundbreaking 2017 paper **"Attention is All You Need"**
+This guide explains how **Transformer-based Large Language Models (LLMs)** work, like GPT-2, GPT-3, GPT-4, and others. These models are built on the **Transformer architecture** introduced in the groundbreaking 2017 paper **[Attention is All You Need](https://arxiv.org/pdf/1706.03762)**
 
 ### Why Transformers?
 
