@@ -38,26 +38,26 @@ Let's begin!
 - [Our Starting Point: A Simple Story](#-our-starting-point-a-simple-story)
 
 ### Foundation Steps (1-4)
-- [Step 1: Creating a Vocabulary 🗣️](#step-1-creating-a-vocabulary-)
-- [Step 2: Tokenization 🔢](#step-2-tokenization-)
-- [Step 3: Training on Chunks/Blocks 📦](#step-3-training-on-chunksblocks-)
-- [Step 4: Converting to Tensors 🔢➡️🔢](#step-4-converting-to-tensors-)
+- [Step 1: Creating a Vocabulary 🗣️](#step-1-creating-a-vocabulary)
+- [Step 2: Tokenization 🔢](#step-2-tokenization)
+- [Step 3: Training on Chunks/Blocks 📦](#step-3-training-on-chunksblocks)
+- [Step 4: Converting to Tensors 🔢➡️🔢](#step-4-converting-to-tensors)
 
 ### Transformer Core (5-9)
-- [Step 5: Embeddings - Turning Tokens into Meaningful Numbers 🎯](#step-5-embeddings---turning-tokens-into-meaningful-numbers-)
-- [Step 6: Deep Neural Network (DNN) Basics 🧠](#step-6-deep-neural-network-dnn-basics-)
-- [Step 7: Positional Encoding - Telling the Model Where Words Are 📍](#step-7-positional-encoding---telling-the-model-where-words-are-)
-- [Step 8: X and Y Axis - Input and Output 📊](#step-8-x-and-y-axis---input-and-output-)
-- [Step 9: Attention Mechanism - The Heart of Transformers! ❤️](#step-9-attention-mechanism---the-heart-of-transformers-)
+- [Step 5: Embeddings - Turning Tokens into Meaningful Numbers 🎯](#step-5-embeddings-turning-tokens-into-meaningful-numbers)
+- [Step 6: Deep Neural Network (DNN) Basics 🧠](#step-6-deep-neural-network-dnn-basics)
+- [Step 7: Positional Encoding - Telling the Model Where Words Are 📍](#step-7-positional-encoding-telling-the-model-where-words-are)
+- [Step 8: X and Y Axis - Input and Output 📊](#step-8-x-and-y-axis-input-and-output)
+- [Step 9: Attention Mechanism - The Heart of Transformers! ❤️](#step-9-attention-mechanism-the-heart-of-transformers)
 
 ### Understanding the Architecture (10-11)
-- [Step 10: The Transformer Block - Putting It All Together 🧩](#step-10-the-transformer-block---putting-it-all-together-)
-- [Step 11: Weights - What the Model Learns 🎯](#step-11-weights---what-the-model-learns-)
-- [What is a Model in LLMs? (Architecture vs. Weights Explained) 🏗️](#-what-is-a-model-in-llms-architecture-vs-weights-explained)
+- [Step 10: The Transformer Block - Putting It All Together 🧩](#step-10-the-transformer-block-putting-it-all-together)
+- [Step 11: Weights - What the Model Learns 🎯](#step-11-weights-what-the-model-learns)
+- [What is a Model in LLMs? (Architecture vs. Weights Explained) 🏗️](#what-is-a-model-in-llms-architecture-vs-weights-explained)
 
 ### Training & Learning (12-13)
-- [Step 12: Gradient Descent - How It Learns 📉](#step-12-gradient-descent---how-it-learns-)
-- [Step 13: In-Context Learning & Pattern Completion 🎓](#step-13-in-context-learning--pattern-completion-)
+- [Step 12: Gradient Descent - How It Learns 📉](#step-12-gradient-descent-how-it-learns)
+- [Step 13: In-Context Learning & Pattern Completion 🎓](#step-13-in-context-learning-pattern-completion)
 
 ### Additional Resources
 - [Story: The Journey of "The Cat Sat" - A Character-Driven Explanation 📖](#-story-the-journey-of-the-cat-sat---a-character-driven-explanation)
@@ -104,7 +104,7 @@ This is our training data - just like how you learn to read by reading many book
 
 ---
 
-## Step 1: Creating a Vocabulary 🗣️
+## Step 1: Creating a Vocabulary 🗣️ {#step-1-creating-a-vocabulary}
 
 ### What is a Vocabulary?
 
@@ -132,7 +132,7 @@ From our story, the unique characters are:
 
 ---
 
-## Step 2: Tokenization 🔢
+## Step 2: Tokenization 🔢 {#step-2-tokenization}
 
 ### What is Tokenization?
 
@@ -198,7 +198,7 @@ This mapping from characters/tokens to numbers is what tokenization does!
 
 ---
 
-## Step 3: Training on Chunks/Blocks 📦
+## Step 3: Training on Chunks/Blocks 📦 {#step-3-training-on-chunksblocks}
 
 ### Why Chunks?
 
@@ -248,7 +248,7 @@ Blocks are small chunks of text (measured in tokens) that the model processes at
 
 ---
 
-## Step 4: Converting to Tensors 🔢➡️🔢
+## Step 4: Converting to Tensors 🔢➡️🔢 {#step-4-converting-to-tensors}
 
 ### What are Tensors?
 
@@ -304,7 +304,7 @@ tensor([
 
 ---
 
-## Step 5: Embeddings - Turning Tokens into Meaningful Numbers 🎯
+## Step 5: Embeddings - Turning Tokens into Meaningful Numbers 🎯 {#step-5-embeddings-turning-tokens-into-meaningful-numbers}
 
 ### What are Embeddings?
 
@@ -378,7 +378,7 @@ Embeddings:   [[0.2, -0.1, ...],  ← "The"
 
 ---
 
-## Step 6: Deep Neural Network (DNN) Basics 🧠
+## Step 6: Deep Neural Network (DNN) Basics 🧠 {#step-6-deep-neural-network-dnn-basics}
 
 ### What is a Neural Network?
 
@@ -431,7 +431,7 @@ These decide if a neuron "fires" (activates):
 
 ---
 
-## Step 7: Positional Encoding - Telling the Model Where Words Are 📍
+## Step 7: Positional Encoding - Telling the Model Where Words Are 📍 {#step-7-positional-encoding-telling-the-model-where-words-are}
 
 ### The Problem:
 
@@ -508,7 +508,7 @@ This helps it understand sentence structure!
 
 ---
 
-## Step 8: X and Y Axis - Input and Output 📊
+## Step 8: X and Y Axis - Input and Output 📊 {#step-8-x-and-y-axis-input-and-output}
 
 ### What are X and Y?
 
@@ -550,7 +550,7 @@ The model learns patterns:
 
 ---
 
-## Step 9: Attention Mechanism - The Heart of Transformers! ❤️
+## Step 9: Attention Mechanism - The Heart of Transformers! ❤️ {#step-9-attention-mechanism-the-heart-of-transformers}
 
 ### What is Attention?
 
@@ -1019,7 +1019,7 @@ Without attention, the model would treat all words equally, which is less effect
 
 ---
 
-## Step 10: The Transformer Block - Putting It All Together 🧩
+## Step 10: The Transformer Block - Putting It All Together 🧩 {#step-10-the-transformer-block-putting-it-all-together}
 
 ### What is a Transformer Block?
 
@@ -1136,7 +1136,7 @@ Each block refines the understanding:
 
 ---
 
-## Step 11: Weights - What the Model Learns 🎯
+## Step 11: Weights - What the Model Learns 🎯 {#step-11-weights-what-the-model-learns}
 
 ### What are Weights?
 
@@ -1491,7 +1491,7 @@ Model File (GPT-2 Small):
 
 ---
 
-## Step 12: Gradient Descent - How It Learns 📉
+## Step 12: Gradient Descent - How It Learns 📉 {#step-12-gradient-descent-how-it-learns}
 
 ### What is Gradient Descent?
 
@@ -1565,7 +1565,7 @@ Error
 
 ---
 
-## Step 13: In-Context Learning & Pattern Completion 🎓
+## Step 13: In-Context Learning & Pattern Completion 🎓 {#step-13-in-context-learning-pattern-completion}
 
 ### What is In-Context Learning?
 
