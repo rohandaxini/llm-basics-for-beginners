@@ -30,6 +30,44 @@ Let's begin!
 
 ---
 
+## 📑 Table of Contents
+
+### Getting Started
+- [What is This Guide About?](#-what-is-this-guide-about)
+- [The Complete Pipeline: A Quick Overview](#-the-complete-pipeline-a-quick-overview)
+- [Our Starting Point: A Simple Story](#-our-starting-point-a-simple-story)
+
+### Foundation Steps (1-4)
+- [Step 1: Creating a Vocabulary](#step-1-creating-a-vocabulary-)
+- [Step 2: Tokenization](#step-2-tokenization-)
+- [Step 3: Training on Chunks/Blocks](#step-3-training-on-chunksblocks-)
+- [Step 4: Converting to Tensors](#step-4-converting-to-tensors-)
+
+### Transformer Core (5-9)
+- [Step 5: Embeddings - Turning Tokens into Meaningful Numbers](#step-5-embeddings---turning-tokens-into-meaningful-numbers-)
+- [Step 6: Deep Neural Network (DNN) Basics](#step-6-deep-neural-network-dnn-basics-)
+- [Step 7: Positional Encoding - Telling the Model Where Words Are](#step-7-positional-encoding---telling-the-model-where-words-are-)
+- [Step 8: X and Y Axis - Input and Output](#step-8-x-and-y-axis---input-and-output-)
+- [Step 9: Attention Mechanism - The Heart of Transformers!](#step-9-attention-mechanism---the-heart-of-transformers-)
+
+### Understanding the Architecture (10-11)
+- [Step 10: The Transformer Block - Putting It All Together](#step-10-the-transformer-block---putting-it-all-together-)
+- [Step 11: Weights - What the Model Learns](#step-11-weights---what-the-model-learns-)
+- [What is a Model in LLMs? (Architecture vs. Weights Explained)](#-what-is-a-model-in-llms-architecture-vs-weights-explained)
+
+### Training & Learning (12-13)
+- [Step 12: Gradient Descent - How It Learns](#step-12-gradient-descent---how-it-learns-)
+- [Step 13: In-Context Learning & Pattern Completion](#step-13-in-context-learning--pattern-completion-)
+
+### Additional Resources
+- [Story: The Journey of "The Cat Sat" - A Character-Driven Explanation](#-story-the-journey-of-the-cat-sat---a-character-driven-explanation)
+- [Putting It All Together: The Complete Flow](#-putting-it-all-together-the-complete-flow)
+- [Key Takeaways](#-key-takeaways)
+- [Visual Summary](#-visual-summary)
+- [Final Thoughts & Next Steps](#-final-thoughts--next-steps)
+
+---
+
 ## 🔄 The Complete Pipeline: A Quick Overview
 
 Before diving into details, here's the big picture of how an LLM processes text:
