@@ -50,6 +50,7 @@ Let's begin!
 - [Step 7: Positional Encoding - Telling the Model Where Words Are](#step-7-positional-encoding-telling-the-model-where-words-are)
 - [Step 8: X and Y Axis - Input and Output](#step-8-x-and-y-axis-input-and-output)
 - [Step 9: Attention Mechanism - The Heart of Transformers](#step-9-attention-mechanism-the-heart-of-transformers)
+- [Story: The Journey of "The Cat Sat" - A Character-Driven Explanation](#story-the-journey-of-the-cat-sat---a-character-driven-explanation)
 
 ### Understanding the Architecture (10-11)
 - [Step 10: The Transformer Block - Putting It All Together](#step-10-the-transformer-block-putting-it-all-together)
@@ -60,8 +61,7 @@ Let's begin!
 - [Step 12: Gradient Descent - How It Learns](#step-12-gradient-descent-how-it-learns)
 - [Step 13: In-Context Learning & Pattern Completion](#step-13-in-context-learning-pattern-completion)
 
-### Additional Resources
-- [Story: The Journey of "The Cat Sat" - A Character-Driven Explanation](#story-the-journey-of-the-cat-sat---a-character-driven-explanation)
+### Summary & Reference
 - [Putting It All Together: The Complete Flow](#putting-it-all-together-the-complete-flow)
 - [Key Takeaways](#key-takeaways)
 - [Visual Summary](#visual-summary)
