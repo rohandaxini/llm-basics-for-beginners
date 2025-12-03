@@ -4,9 +4,10 @@
 
 ---
 
+<a id="what-is-this-guide-about"></a>
 ## 🎯 What is This Guide About?
 
-This guide explains how **Transformer-based Large Language Models (LLMs)** work, like GPT-2, GPT-3, GPT-4, and others. These models are built on the **Transformer architecture** introduced in the groundbreaking 2017 paper **[Attention is All You Need](https://arxiv.org/pdf/1706.03762)**
+This guide explains how **Transformer-based Large Language Models (LLMs)** work, like GPT-2, GPT-3, GPT-4, and others. These models are built on the **Transformer architecture** introduced in the groundbreaking 2017 paper **[Attention is All You Need](https://arxiv.org/pdf/1706.03762)**.
 
 ### Why Transformers?
 
@@ -33,41 +34,42 @@ Let's begin!
 ## 📑 Table of Contents
 
 ### Getting Started
-- [What is This Guide About?](#-what-is-this-guide-about)
-- [The Complete Pipeline: A Quick Overview](#-the-complete-pipeline-a-quick-overview)
-- [Our Starting Point: A Simple Story](#-our-starting-point-a-simple-story)
+- [What is This Guide About?](#what-is-this-guide-about)
+- [The Complete Pipeline: A Quick Overview](#the-complete-pipeline-a-quick-overview)
+- [Our Starting Point: A Simple Story](#our-starting-point-a-simple-story)
 
 ### Foundation Steps (1-4)
-- [Step 1: Creating a Vocabulary 🗣️](#step-1-creating-a-vocabulary)
-- [Step 2: Tokenization 🔢](#step-2-tokenization)
-- [Step 3: Training on Chunks/Blocks 📦](#step-3-training-on-chunksblocks)
-- [Step 4: Converting to Tensors 🔢➡️🔢](#step-4-converting-to-tensors)
+- [Step 1: Creating a Vocabulary](#step-1-creating-a-vocabulary)
+- [Step 2: Tokenization](#step-2-tokenization)
+- [Step 3: Training on Chunks/Blocks](#step-3-training-on-chunksblocks)
+- [Step 4: Converting to Tensors](#step-4-converting-to-tensors)
 
 ### Transformer Core (5-9)
-- [Step 5: Embeddings - Turning Tokens into Meaningful Numbers 🎯](#step-5-embeddings-turning-tokens-into-meaningful-numbers)
-- [Step 6: Deep Neural Network (DNN) Basics 🧠](#step-6-deep-neural-network-dnn-basics)
-- [Step 7: Positional Encoding - Telling the Model Where Words Are 📍](#step-7-positional-encoding-telling-the-model-where-words-are)
-- [Step 8: X and Y Axis - Input and Output 📊](#step-8-x-and-y-axis-input-and-output)
-- [Step 9: Attention Mechanism - The Heart of Transformers! ❤️](#step-9-attention-mechanism-the-heart-of-transformers)
+- [Step 5: Embeddings - Turning Tokens into Meaningful Numbers](#step-5-embeddings-turning-tokens-into-meaningful-numbers)
+- [Step 6: Deep Neural Network (DNN) Basics](#step-6-deep-neural-network-dnn-basics)
+- [Step 7: Positional Encoding - Telling the Model Where Words Are](#step-7-positional-encoding-telling-the-model-where-words-are)
+- [Step 8: X and Y Axis - Input and Output](#step-8-x-and-y-axis-input-and-output)
+- [Step 9: Attention Mechanism - The Heart of Transformers](#step-9-attention-mechanism-the-heart-of-transformers)
 
 ### Understanding the Architecture (10-11)
-- [Step 10: The Transformer Block - Putting It All Together 🧩](#step-10-the-transformer-block-putting-it-all-together)
-- [Step 11: Weights - What the Model Learns 🎯](#step-11-weights-what-the-model-learns)
-- [What is a Model in LLMs? (Architecture vs. Weights Explained) 🏗️](#what-is-a-model-in-llms-architecture-vs-weights-explained)
+- [Step 10: The Transformer Block - Putting It All Together](#step-10-the-transformer-block-putting-it-all-together)
+- [Step 11: Weights - What the Model Learns](#step-11-weights-what-the-model-learns)
+- [What is a Model in LLMs? (Architecture vs. Weights Explained)](#what-is-a-model-in-llms-architecture-vs-weights-explained)
 
 ### Training & Learning (12-13)
-- [Step 12: Gradient Descent - How It Learns 📉](#step-12-gradient-descent-how-it-learns)
-- [Step 13: In-Context Learning & Pattern Completion 🎓](#step-13-in-context-learning-pattern-completion)
+- [Step 12: Gradient Descent - How It Learns](#step-12-gradient-descent-how-it-learns)
+- [Step 13: In-Context Learning & Pattern Completion](#step-13-in-context-learning-pattern-completion)
 
 ### Additional Resources
-- [Story: The Journey of "The Cat Sat" - A Character-Driven Explanation 📖](#-story-the-journey-of-the-cat-sat---a-character-driven-explanation)
-- [Putting It All Together: The Complete Flow 🎯](#-putting-it-all-together-the-complete-flow)
-- [Key Takeaways 📚](#-key-takeaways)
-- [Visual Summary 🎨](#-visual-summary)
-- [Final Thoughts & Next Steps 🎉](#-final-thoughts--next-steps)
+- [Story: The Journey of "The Cat Sat" - A Character-Driven Explanation](#story-the-journey-of-the-cat-sat---a-character-driven-explanation)
+- [Putting It All Together: The Complete Flow](#putting-it-all-together-the-complete-flow)
+- [Key Takeaways](#key-takeaways)
+- [Visual Summary](#visual-summary)
+- [Final Thoughts & Next Steps](#final-thoughts--next-steps)
 
 ---
 
+<a id="the-complete-pipeline-a-quick-overview"></a>
 ## 🔄 The Complete Pipeline: A Quick Overview
 
 Before diving into details, here's the big picture of how an LLM processes text:
@@ -91,6 +93,7 @@ Don't worry if this looks complex! We'll explain each step in detail. This diagr
 
 ---
 
+<a id="our-starting-point-a-simple-story"></a>
 ## 📖 Our Starting Point: A Simple Story
 
 Let's start with a tiny story to train our model:
@@ -104,7 +107,8 @@ This is our training data - just like how you learn to read by reading many book
 
 ---
 
-## Step 1: Creating a Vocabulary 🗣️ {#step-1-creating-a-vocabulary}
+<a id="step-1-creating-a-vocabulary"></a>
+## Step 1: Creating a Vocabulary 🗣️
 
 ### What is a Vocabulary?
 
@@ -132,7 +136,8 @@ From our story, the unique characters are:
 
 ---
 
-## Step 2: Tokenization 🔢 {#step-2-tokenization}
+<a id="step-2-tokenization"></a>
+## Step 2: Tokenization 🔢
 
 ### What is Tokenization?
 
@@ -198,7 +203,8 @@ This mapping from characters/tokens to numbers is what tokenization does!
 
 ---
 
-## Step 3: Training on Chunks/Blocks 📦 {#step-3-training-on-chunksblocks}
+<a id="step-3-training-on-chunksblocks"></a>
+## Step 3: Training on Chunks/Blocks 📦
 
 ### Why Chunks?
 
@@ -248,7 +254,8 @@ Blocks are small chunks of text (measured in tokens) that the model processes at
 
 ---
 
-## Step 4: Converting to Tensors 🔢➡️🔢 {#step-4-converting-to-tensors}
+<a id="step-4-converting-to-tensors"></a>
+## Step 4: Converting to Tensors 🔢➡️🔢
 
 ### What are Tensors?
 
@@ -304,7 +311,8 @@ tensor([
 
 ---
 
-## Step 5: Embeddings - Turning Tokens into Meaningful Numbers 🎯 {#step-5-embeddings-turning-tokens-into-meaningful-numbers}
+<a id="step-5-embeddings-turning-tokens-into-meaningful-numbers"></a>
+## Step 5: Embeddings - Turning Tokens into Meaningful Numbers 🎯
 
 ### What are Embeddings?
 
@@ -378,7 +386,8 @@ Embeddings:   [[0.2, -0.1, ...],  ← "The"
 
 ---
 
-## Step 6: Deep Neural Network (DNN) Basics 🧠 {#step-6-deep-neural-network-dnn-basics}
+<a id="step-6-deep-neural-network-dnn-basics"></a>
+## Step 6: Deep Neural Network (DNN) Basics 🧠
 
 ### What is a Neural Network?
 
@@ -431,7 +440,8 @@ These decide if a neuron "fires" (activates):
 
 ---
 
-## Step 7: Positional Encoding - Telling the Model Where Words Are 📍 {#step-7-positional-encoding-telling-the-model-where-words-are}
+<a id="step-7-positional-encoding-telling-the-model-where-words-are"></a>
+## Step 7: Positional Encoding - Telling the Model Where Words Are 📍
 
 ### The Problem:
 
@@ -508,7 +518,8 @@ This helps it understand sentence structure!
 
 ---
 
-## Step 8: X and Y Axis - Input and Output 📊 {#step-8-x-and-y-axis-input-and-output}
+<a id="step-8-x-and-y-axis-input-and-output"></a>
+## Step 8: X and Y Axis - Input and Output 📊
 
 ### What are X and Y?
 
@@ -550,7 +561,8 @@ The model learns patterns:
 
 ---
 
-## Step 9: Attention Mechanism - The Heart of Transformers! ❤️ {#step-9-attention-mechanism-the-heart-of-transformers}
+<a id="step-9-attention-mechanism-the-heart-of-transformers"></a>
+## Step 9: Attention Mechanism - The Heart of Transformers! ❤️
 
 ### What is Attention?
 
@@ -756,6 +768,7 @@ This ensures the model learns to predict sequentially, like humans do!
 
 ---
 
+<a id="story-the-journey-of-the-cat-sat---a-character-driven-explanation"></a>
 ## 📖 Story: The Journey of "The Cat Sat" - A Character-Driven Explanation
 
 Let's bring all the concepts together with a story! Each step in the LLM processing pipeline has a character with a specific role.
@@ -1019,7 +1032,8 @@ Without attention, the model would treat all words equally, which is less effect
 
 ---
 
-## Step 10: The Transformer Block - Putting It All Together 🧩 {#step-10-the-transformer-block-putting-it-all-together}
+<a id="step-10-the-transformer-block-putting-it-all-together"></a>
+## Step 10: The Transformer Block - Putting It All Together 🧩
 
 ### What is a Transformer Block?
 
@@ -1136,7 +1150,8 @@ Each block refines the understanding:
 
 ---
 
-## Step 11: Weights - What the Model Learns 🎯 {#step-11-weights-what-the-model-learns}
+<a id="step-11-weights-what-the-model-learns"></a>
+## Step 11: Weights - What the Model Learns 🎯
 
 ### What are Weights?
 
@@ -1188,6 +1203,7 @@ Weights are **part of the neural network** - they're stored in the connections b
 
 ---
 
+<a id="what-is-a-model-in-llms-architecture-vs-weights-explained"></a>
 ## 🏗️ What is a Model in LLMs? (Architecture vs. Weights Explained)
 
 Now that you understand **weights** (Step 11) and **Transformer architecture** (Step 10), let's put it all together and understand what a **"model"** actually is!
@@ -1491,7 +1507,8 @@ Model File (GPT-2 Small):
 
 ---
 
-## Step 12: Gradient Descent - How It Learns 📉 {#step-12-gradient-descent-how-it-learns}
+<a id="step-12-gradient-descent-how-it-learns"></a>
+## Step 12: Gradient Descent - How It Learns 📉
 
 ### What is Gradient Descent?
 
@@ -1565,7 +1582,8 @@ Error
 
 ---
 
-## Step 13: In-Context Learning & Pattern Completion 🎓 {#step-13-in-context-learning-pattern-completion}
+<a id="step-13-in-context-learning-pattern-completion"></a>
+## Step 13: In-Context Learning & Pattern Completion 🎓
 
 ### What is In-Context Learning?
 
@@ -1631,6 +1649,7 @@ In-context learning is **using** what was learned during training, not learning 
 
 ---
 
+<a id="putting-it-all-together-the-complete-flow"></a>
 ## 🎯 Putting It All Together: The Complete Flow
 
 ### Training a Transformer LLM (GPT-style):
@@ -1716,6 +1735,7 @@ In-context learning is **using** what was learned during training, not learning 
 
 ---
 
+<a id="key-takeaways"></a>
 ## 📚 Key Takeaways
 
 ### Core Concepts:
@@ -1751,6 +1771,7 @@ In-context learning is **using** what was learned during training, not learning 
 
 ---
 
+<a id="visual-summary"></a>
 ## 🎨 Visual Summary
 
 ```
@@ -1807,6 +1828,7 @@ Autoregressive Generation
 
 ---
 
+<a id="final-thoughts--next-steps"></a>
 ## 🎉 Final Thoughts & Next Steps
 
 You're now equipped with the core understanding of how modern LLMs work, from **text → tokens → tensors → embeddings → attention → prediction**.
