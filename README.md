@@ -1866,11 +1866,12 @@ Now that you understand the architecture, here are paths to deepen your knowledg
 - **Advanced topics:** Fine-tuning, prompt engineering, few-shot learning
 
 **Get Hands-On:**
+- **[Build a Large Language Model (From Scratch)](https://github.com/rasbt/LLMs-from-scratch)** by Sebastian Raschka - An excellent hands-on book that walks you through implementing a ChatGPT-like LLM in PyTorch from scratch, step by step. Perfect for applying the concepts you've learned here!
 - **Experiment:** Try building a small Transformer yourself (using PyTorch/TensorFlow)
 - **Read the original paper:** "Attention is All You Need" (2017) - now you'll understand it!
 - **Explore real-world applications:** Learn how to use and deploy these models
 
-**Remember:** Building an LLM is like teaching a computer to read, it takes time, lots of data, and many iterations, but the principles are simple once you break them down. The Transformer architecture revolutionized NLP by making parallel processing of sequences possible.
+**Remember:** Building an LLM is like teaching a computer to read, it takes time, lots of data, and many iterations, but the principles are simple once you break them down! The Transformer architecture revolutionized NLP by making parallel processing of sequences possible.
 
 You now have the fundamental knowledge to understand how these models think, learn, and generate text. You can read research papers, experiment with models, and even build your own!
 
