@@ -9,15 +9,6 @@
 
 This guide explains how **Transformer-based Large Language Models (LLMs)** work, like GPT-2, GPT-3, GPT-4, and others. These models are built on the **Transformer architecture** introduced in the groundbreaking 2017 paper **[Attention is All You Need](https://arxiv.org/pdf/1706.03762)**.
 
-### Why Transformers?
-
-Before Transformers, models processed text **one word at a time** (sequentially), which was slow. Transformers revolutionized this by:
-
-1. **Processing all words in parallel** - Much faster!
-2. **Using Attention** - Can focus on relevant words anywhere in the text
-3. **Handling long sequences** - Better at understanding context
-4. **Being easier to train** - More stable and efficient
-
 ### What You'll Learn:
 
 This guide covers the **complete journey** from raw text to a trained LLM:
@@ -37,6 +28,10 @@ Let's begin!
 - [What is This Guide About?](#what-is-this-guide-about)
 - [The Complete Pipeline: A Quick Overview](#the-complete-pipeline-a-quick-overview)
 - [Our Starting Point: A Simple Story](#our-starting-point-a-simple-story)
+
+### Basics
+- [Basics of LLMs](#basics-of-llms)
+- [Why Transformers?](#why-transformers)
 
 ### Foundation Steps (1-4)
 - [Step 1: Creating a Vocabulary](#step-1-creating-a-vocabulary)
@@ -66,6 +61,63 @@ Let's begin!
 - [Key Takeaways](#key-takeaways)
 - [Visual Summary](#visual-summary)
 - [Final Thoughts & Next Steps](#final-thoughts--next-steps)
+
+---
+
+<a id="basics-of-llms"></a>
+## 📚 Basics of LLMs
+
+**What is a Large Language Model (LLM)?**
+
+A **Large Language Model (LLM)** is a type of **Deep Neural Network (DNN)** that has been trained on massive amounts of text data. Think of it as a computer program that has "read" millions of books, articles, websites, and other text to learn patterns in human language.
+
+**What can LLMs do?**
+
+LLMs are designed to understand, generate, and respond to human-like text. They can:
+- **Understand** context and meaning in text
+- **Generate** new text that follows patterns they've learned
+- **Respond** to questions, prompts, and instructions
+- **Complete** sentences, paragraphs, or entire documents
+- **Translate** between languages
+- **Summarize** long texts
+- And much more!
+
+**How do they work?**
+
+At their core, LLMs are:
+- **Deep Neural Networks** - Complex systems of interconnected "neurons" (mathematical functions)
+- **Trained on massive data** - Fed billions or trillions of words to learn language patterns
+- **Pattern recognition machines** - They learn statistical patterns in how words, phrases, and sentences relate to each other
+- **Autoregressive** - They predict the next word based on previous words
+
+**Why "Large"?**
+
+The term "Large" refers to:
+- **Large amounts of training data** (terabytes of text)
+- **Large number of parameters** (billions or trillions of learned values)
+- **Large computational requirements** (powerful computers needed for training)
+
+**Real-world examples:**
+- **ChatGPT** - Conversational AI assistant
+- **GPT-4** - Advanced text generation and understanding
+- **Claude** - Helpful AI assistant
+- **Gemini** - Google's multimodal AI model
+
+All of these are LLMs built on Transformer architecture!
+
+---
+
+<a id="why-transformers"></a>
+## ⚡ Why Transformers?
+
+Before Transformers, models processed text **one word at a time** (sequentially), which was slow. Transformers revolutionized this by:
+
+1. **Processing all words in parallel** - Much faster!
+2. **Using Attention** - Can focus on relevant words anywhere in the text
+3. **Handling long sequences** - Better at understanding context
+4. **Being easier to train** - More stable and efficient
+
+The Transformer architecture, introduced in the 2017 paper "Attention is All You Need," became the foundation for all modern LLMs because it solved the key limitations of previous approaches while being highly scalable and efficient.
 
 ---
 
