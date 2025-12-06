@@ -24,14 +24,13 @@ Let's begin!
 
 ## 📑 Table of Contents
 
-### Getting Started
-- [What is This Guide About?](#what-is-this-guide-about)
-- [The Complete Pipeline: A Quick Overview](#the-complete-pipeline-a-quick-overview)
-- [Our Starting Point: A Simple Story](#our-starting-point-a-simple-story)
-
 ### Basics
 - [Basics of LLMs](#basics-of-llms)
 - [Why Transformers?](#why-transformers)
+
+### Getting Started
+- [The Complete Pipeline: A Quick Overview](#the-complete-pipeline-a-quick-overview)
+- [Our Starting Point: A Simple Story](#our-starting-point-a-simple-story)
 
 ### Foundation Steps (1-4)
 - [Step 1: Creating a Vocabulary](#step-1-creating-a-vocabulary)
