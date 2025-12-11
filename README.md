@@ -308,11 +308,9 @@ Blocks are small chunks of text (measured in tokens) that the model processes at
 <a id="step-4-converting-to-tensors"></a>
 ## Step 4: Converting to Tensors 🔢➡️🔢
 
-### What are Tensors?
+### Simple Explanation: What are Tensors?
 
 Think of tensors as **multi-dimensional arrays** (lists of numbers organized in shapes).
-
-### Simple Explanation:
 
 **Regular number:** `5` (0 dimensions - just a point)
 
@@ -365,8 +363,6 @@ tensor([
 ### 🎯 First Principles: Tensors are the Core Building Blocks
 
 **Important insight:** LLMs, Deep Neural Networks (DNNs), and Transformers all reduce to tensors. Everything in AI/ML is fundamentally about manipulating tensors!
-
-### What is a Tensor, Really?
 
 A tensor is a **logical (abstract) data structure** that includes several components:
 
