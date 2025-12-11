@@ -1,4 +1,4 @@
-# How Transformer-based Large Language Models (LLMs) Work: A Beginner's Guide 🚀
+# How LLMs Work: A Beginner's Guide
 
 *Imagine you're teaching a computer to read and write like a human. This guide will walk you through how that happens, step by step!*
 
