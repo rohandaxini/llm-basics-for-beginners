@@ -601,6 +601,86 @@ These decide if a neuron "fires" (activates):
 
 ---
 
+### Types of Artificial Neurons: From Perceptron to Modern LLMs
+
+**What are Artificial Neurons?**
+
+An artificial neuron is a mathematical function that takes inputs, applies weights, adds a bias, and passes the result through an activation function. Different types of neurons use different activation functions.
+
+#### Common Types of Artificial Neurons:
+
+**1. Perceptron (The Original - 1950s)**
+- **Activation:** Step function (binary: 0 or 1)
+- **Formula:** `output = 1 if (weighted_sum + bias) > 0, else 0`
+- **Limitation:** Not differentiable, can't learn with gradient descent
+- **Status:** Historical - mostly replaced by better alternatives
+
+**2. Sigmoid Neuron**
+- **Activation:** Sigmoid function (smooth S-curve, outputs 0-1)
+- **Formula:** `output = 1 / (1 + e^(-z))` where z = weighted sum
+- **Advantage:** Differentiable, smooth
+- **Limitation:** Vanishing gradients problem, slow training
+- **Use:** Early neural networks (1980s-2000s), less common now
+
+**3. Tanh Neuron**
+- **Activation:** Hyperbolic tangent (outputs -1 to 1)
+- **Similar to sigmoid** but centered at 0
+- **Use:** Sometimes in RNNs, less common in modern models
+
+**4. ReLU (Rectified Linear Unit) - Most Common in CNNs**
+- **Activation:** `output = max(0, z)` where z = weighted sum
+- **Advantage:** Simple, fast, helps with vanishing gradients
+- **Use:** Very common in CNNs and many neural networks
+
+**5. GELU (Gaussian Error Linear Unit) - Used in Modern LLMs**
+- **Activation:** `output = x × Φ(x)` where Φ is the cumulative distribution function of standard normal
+- **Advantage:** Smooth, works exceptionally well in Transformers
+- **Use:** GPT-2, GPT-3, GPT-4, BERT, and most modern LLMs
+
+#### What Do GPT/LLM Models Actually Use?
+
+**Important:** LLMs like GPT don't use "neurons" in the traditional perceptron/sigmoid sense throughout the model. Instead, they use different components:
+
+**1. Feed-Forward Networks (FFN) - Where "Neurons" Appear:**
+- **Uses GELU activation** (or sometimes ReLU/Swish)
+- **Structure:** `FFN(x) = GELU(xW₁ + b₁)W₂ + b₂`
+- This is where the traditional "neuron" concept applies most directly
+- Each neuron in the FFN uses GELU activation
+
+**2. Attention Mechanism:**
+- **No traditional activation function**
+- Uses **linear transformations** (matrix multiplications)
+- **Softmax** for attention weights (converts scores to probabilities)
+- Not really "neurons" in the traditional sense - more like mathematical operations
+
+**3. Output Layer:**
+- **No activation** (just linear transformation to logits)
+- **Softmax** applied afterward to get probabilities over vocabulary
+
+**4. Layer Normalization:**
+- Not a neuron, but a normalization operation
+
+#### Why GELU in LLMs?
+
+GPT models use **GELU** in their Feed-Forward Networks because:
+
+1. **Smooth:** Differentiable everywhere (unlike ReLU which has a sharp corner)
+2. **Non-linear:** Enables complex pattern learning
+3. **Better for language:** Performs better than ReLU in language understanding tasks
+4. **Gradient-friendly:** Helps with training stability in deep networks
+5. **Proven effective:** Used in GPT-2, GPT-3, GPT-4, BERT, and other successful LLMs
+
+#### Key Insight:
+
+**LLMs don't use sigmoid or perceptron neurons!** The "neurons" in LLMs are primarily in the **Feed-Forward Networks**, which use **GELU** (or ReLU/Swish) activation functions. The attention mechanism uses linear transformations + softmax, which is quite different from traditional neurons.
+
+**Summary:**
+- **Traditional neurons:** Perceptron, Sigmoid, Tanh (mostly historical)
+- **Modern neurons:** ReLU (CNNs), GELU (LLMs)
+- **GPT models:** Use GELU in FFN, linear + softmax in attention
+
+---
+
 <a id="step-7-positional-encoding-telling-the-model-where-words-are"></a>
 ## Step 7: Positional Encoding - Telling the Model Where Words Are 📍
 
