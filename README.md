@@ -15,7 +15,9 @@ This guide covers the **complete journey** from raw text to a trained LLM:
 - Basic concepts (vocabulary, tokenization, tensors)
 - Transformer-specific innovations (embeddings, positional encoding)
 - Attention mechanism - the revolutionary core of Transformers
-- Training process (gradient descent, weights)
+- Training process (loss functions, backpropagation, gradient descent, weights)
+- Output projection and how models convert hidden states to words
+- Temperature and sampling strategies (how models choose words)
 - How it all fits together
 
 Let's begin!
@@ -51,9 +53,13 @@ Let's begin!
 - [Step 11: Weights - What the Model Learns](#step-11-weights-what-the-model-learns)
 - [What is a Model in LLMs? (Architecture vs. Weights Explained)](#what-is-a-model-in-llms-architecture-vs-weights-explained)
 
-### Training & Learning (12-13)
-- [Step 12: Gradient Descent - How It Learns](#step-12-gradient-descent-how-it-learns)
-- [Step 13: In-Context Learning & Pattern Completion](#step-13-in-context-learning-pattern-completion)
+### Training & Learning (12-16)
+- [Step 12: Batch Size - Learning in Groups](#step-12-batch-size-learning-in-groups)
+- [Step 13: Loss Function - Measuring How Wrong the Model Is](#step-13-loss-function-measuring-how-wrong-the-model-is)
+- [Step 14: Gradient Descent & Backpropagation - How It Learns](#step-14-gradient-descent-and-backpropagation-how-it-learns)
+- [Step 15: Output Projection - From Hidden States to Words](#step-15-output-projection-from-hidden-states-to-words)
+- [Step 16: Temperature & Sampling - How the Model Chooses Words](#step-16-temperature-and-sampling-how-the-model-chooses-words)
+- [Step 17: In-Context Learning & Pattern Completion](#step-17-in-context-learning-pattern-completion)
 
 ### Summary & Reference
 - [Putting It All Together: The Complete Flow](#putting-it-all-together-the-complete-flow)
@@ -109,7 +115,7 @@ All of these are LLMs built on Transformer architecture!
 <a id="why-transformers"></a>
 ## ⚡ Why Transformers?
 
-Before Transformers, models processed text **one word at a time** (sequentially), which was slow. Transformers revolutionized this by:
+Before Transformers, the dominant models (RNNs/LSTMs) processed text **one word at a time** (sequentially), which was slow. Transformers revolutionized this by:
 
 1. **Processing all words in parallel** - Much faster!
 2. **Using Attention** - Can focus on relevant words anywhere in the text
@@ -174,13 +180,13 @@ Think of vocabulary like a dictionary. Before the computer can understand text, 
 ### Example:
 
 From our story, the unique characters are:
-- Letters: `T`, `h`, `e`, `c`, `a`, `t`, `s`, `o`, `n`, `m`, `d`, `g`, `r`, `i`, `p`, `k`, `y`, `d`, `l`, `f`, `w`, `b`
+- Letters: `T`, `h`, `e`, `c`, `a`, `t`, `s`, `o`, `n`, `m`, `d`, `g`, `r`, `i`, `p`, `k`, `y`, `l`, `f`, `w`, `b`, `u`
 - Punctuation: `.`
 - Space: ` ` (space character)
 
 **Vocabulary (simplified):**
 ```
-['T', 'h', 'e', ' ', 'c', 'a', 't', 's', 'o', 'n', 'm', 'd', 'g', 'r', 'i', 'p', 'k', 'y', 'l', 'f', 'w', 'b', '.']
+['T', 'h', 'e', ' ', 'c', 'a', 't', 's', 'o', 'n', 'm', 'd', 'g', 'r', 'i', 'p', 'k', 'y', 'l', 'f', 'w', 'b', 'u', '.']
 ```
 
 > **Note:** Real LLMs do not build vocabulary from characters—it's done during tokenizer training using BPE or SentencePiece. The character vocabulary above is just for teaching purposes to help you understand the concept.
@@ -249,8 +255,8 @@ This mapping from characters/tokens to numbers is what tokenization does!
 ### Real-World Tokenizers:
 
 - **OpenAI's GPT models:** Use TikToken (BPE-based)
-- **Google's models:** Use SentencePiece
-- **Both are BPE variants** - they're smart about breaking text into pieces
+- **Google's models:** Use SentencePiece (supports both BPE and Unigram tokenization methods)
+- **Both are subword tokenizers** - they're smart about breaking text into meaningful pieces
 
 ---
 
@@ -288,6 +294,8 @@ Blocks are small chunks of text (measured in tokens) that the model processes at
 - **Small models:** 128-512 tokens
 - **Medium models (like GPT-2):** 1024 tokens
 - **Large models (like GPT-3/4):** 2048-8192 tokens or more
+
+> **Note:** Block size during training and the model's maximum context window at inference are related but not identical. The block size determines how many tokens the model processes during each training step, while the context window is the maximum sequence length the model can handle. GPT-2's context window is 1024 tokens, GPT-3's is 2048, and GPT-4's ranges from 8K to 128K tokens depending on the version.
 
 **Why bigger blocks?** 
 - More context = better understanding
@@ -781,17 +789,18 @@ The model learns: "Given 'The cat', predict 'sat'"
 
 ### Creating Training Pairs:
 
-From our story, we create many X-Y pairs:
+From our story, we create many X-Y pairs. The model uses **variable-length prefixes** (autoregressive training), not fixed-size windows:
 
 | X (Input) | Y (Target) |
 |-----------|------------|
+| "The" | "cat" |
 | "The cat" | "sat" |
-| "cat sat" | "on" |
-| "sat on" | "the" |
-| "on the" | "mat" |
+| "The cat sat" | "on" |
+| "The cat sat on" | "the" |
+| "The cat sat on the" | "mat" |
 | ... | ... |
 
-> **Note:** In practice, the model trains by shifting the sequence by one token: input tokens vs the same tokens shifted left by one position. For example, from the sequence ["The", "cat", "sat", "on"], we create pairs: (["The"], "cat"), (["The", "cat"], "sat"), (["The", "cat", "sat"], "on"). This sliding window approach creates many training examples from a single sequence.
+> **Note:** In practice, the model trains by shifting the sequence by one token: input tokens vs the same tokens shifted left by one position. From the sequence ["The", "cat", "sat", "on"], we create pairs: (["The"], "cat"), (["The", "cat"], "sat"), (["The", "cat", "sat"], "on"). Each prediction uses all previous tokens as context, not a fixed-size window. This is what makes the model **autoregressive** - it predicts one token at a time, using all prior tokens as input.
 
 ### Why This Works:
 
@@ -871,16 +880,16 @@ Attention("cat" → "cat") = Q₂ · K₂
 
 **Step 3: Apply Softmax (Convert to Probabilities)**
 ```
-Scores: [0.1, 0.9]  ← These are "logits" (unnormalized scores) - only "The" and "cat"
+Scores: [0.1, 0.9]  ← These are raw attention scores (unnormalized) - only "The" and "cat"
          ↓ (softmax)
-Probs:  [0.10, 0.90]  ← These are probabilities (normalized, sum to 1)
+Probs:  [0.10, 0.90]  ← These are attention weights (normalized, sum to 1)
         ↑     ↑
       "The" "cat"
 ```
 
-> **Note:** **Logits** are the raw, unnormalized scores before applying softmax. They can be any real numbers (positive, negative, large, small). Softmax converts them into probabilities (values between 0 and 1 that sum to 1). In the final output layer, the model produces logits for each possible next token, then softmax converts them to a probability distribution.
+> **Note:** The raw scores above are called **attention scores** (not logits). The term **logits** specifically refers to the raw, unnormalized scores in the **final output layer**, where the model scores each possible next token in the vocabulary. Softmax converts both attention scores and logits into probabilities (values between 0 and 1 that sum to 1), but they serve different purposes: attention scores determine how much focus to give each token, while logits determine the probability of each possible next token.
 
-> **Why not predict probabilities directly?** Because logits allow the model to output unconstrained real numbers; softmax transforms them into valid probabilities. This makes training easier and more stable.
+> **Why not predict probabilities directly?** Because raw scores (whether attention scores or logits) allow the model to output unconstrained real numbers; softmax transforms them into valid probabilities. This makes training easier and more stable.
 
 "cat" pays 90% attention to itself, 10% to "The" (it cannot see "sat" because it's in the future).
 
@@ -1297,7 +1306,8 @@ A **Transformer Block** is the building unit of Transformers. It combines attent
 
 #### 4. **Feed-Forward Network (FFN)**
 - A small neural network that processes each position independently
-- Usually: `FFN(x) = ReLU(xW₁ + b₁)W₂ + b₂`
+- Original Transformer paper: `FFN(x) = ReLU(xW₁ + b₁)W₂ + b₂`
+- GPT models use GELU instead: `FFN(x) = GELU(xW₁ + b₁)W₂ + b₂`
 - Adds non-linearity and processing power
 
 #### 5. **Another Residual Connection**
@@ -1478,7 +1488,7 @@ GPT-2 Architecture:
 - 12 Transformer blocks (layers)
 - 12 attention heads per block
 - 768 embedding dimensions
-- 50,000 token vocabulary
+- 50,257 token vocabulary
 ```
 
 #### 2. **Weights** (The Learned Knowledge) 🧠
@@ -1598,7 +1608,7 @@ When stored on disk or in memory, weights are organized as **matrices** (rows an
 **1. Embedding Weights:**
 ```
 Shape: [Vocabulary Size × Embedding Dimension]
-Example: [50,000 × 768] for GPT-2
+Example: [50,257 × 768] for GPT-2
 
 Row = Token ID
 Column = Embedding dimension
@@ -1677,7 +1687,7 @@ Model File Contains:
 ```
 
 **Where:**
-- **Vocab** = Vocabulary size (e.g., 50,000 tokens)
+- **Vocab** = Vocabulary size (e.g., 50,257 tokens for GPT-2)
 - **Dim** = Embedding dimension (e.g., 768 for GPT-2, 12,288 for GPT-3)
 - **MaxLen** = Maximum sequence length (e.g., 1024, 2048, 8192)
 - **FFN_Dim** = Feed-forward network dimension (usually 4×Dim, e.g., 3072 when Dim=768)
@@ -1692,11 +1702,11 @@ Model File (GPT-2 Small):
 │   ├── Number of layers: 12
 │   ├── Hidden dimensions: 768
 │   ├── Number of attention heads: 12
-│   ├── Vocabulary size: 50,000
+│   ├── Vocabulary size: 50,257
 │   └── How components connect
 │
 └── Weight Matrices (stored as arrays)
-    ├── Embedding weights: [50,000 × 768]
+    ├── Embedding weights: [50,257 × 768]
     ├── Positional encoding: [1024 × 768]
     ├── Attention weights (per layer):
     │   ├── W_q: [768 × 768]
@@ -1717,7 +1727,7 @@ Model File (GPT-2 Small):
 | GPT-2 Small | 124 million | ~500 MB | 12 layers, 768 dims |
 | GPT-2 Medium | 355 million | ~1.4 GB | 24 layers, 1024 dims |
 | GPT-3 | 175 billion | ~350 GB | 96 layers, 12,288 dims |
-| GPT-4 | ~1.7 trillion | ~3.4 TB | (exact architecture not public) |
+| GPT-4 | ~1.7 trillion (rumored, unconfirmed) | ~3.4 TB (estimated) | (exact architecture not public) |
 
 **What "Parameters" Means:**
 - Each number in a weight matrix is a **parameter**
@@ -1744,16 +1754,150 @@ Model File (GPT-2 Small):
 
 5. **Training Updates Weights, Not Architecture**
    - Architecture is fixed (decided before training)
-   - Weights change during training (this is the "learning") - as we'll see in Step 12!
+   - Weights change during training (this is the "learning") - as we'll see in the training steps!
 
 ---
 
-<a id="step-12-gradient-descent-how-it-learns"></a>
-## Step 12: Gradient Descent - How It Learns 📉
+<a id="step-12-batch-size-learning-in-groups"></a>
+## Step 12: Batch Size - Learning in Groups 📦
+
+### What is Batch Size?
+
+**Batch size** is the number of training examples the model processes at once before updating its weights.
+
+### Simple Analogy:
+
+Imagine a teacher grading exams:
+- **Batch size = 1:** Grade one exam, adjust teaching, grade next exam, adjust again... (slow, noisy adjustments)
+- **Batch size = 32:** Grade 32 exams, see overall patterns, make one well-informed adjustment
+- **Batch size = all:** Grade every exam, make one perfect adjustment (but takes forever to grade!)
+
+### Why Not Process One Example at a Time?
+
+1. **Noisy gradients:** One example might be unusual, leading to bad weight updates
+2. **Slow:** Updating weights after every single example is inefficient
+3. **GPU utilization:** GPUs are designed for parallel processing - batches keep them busy
+
+### Why Not Process Everything at Once?
+
+1. **Memory:** The entire dataset won't fit in GPU memory
+2. **Slow updates:** Waiting to see all data before updating means very slow learning
+3. **Generalization:** Some noise in gradients actually helps the model generalize better
+
+### Common Batch Sizes:
+
+- **Small models:** 32-64 examples per batch
+- **Medium models (GPT-2):** 512 examples per batch
+- **Large models (GPT-3):** 3.2 million tokens per batch (using gradient accumulation)
+
+### How Batching Works:
+
+```
+Training Data: 10,000 examples
+Batch Size: 32
+
+Step 1: Take examples 1-32
+        → Forward pass (make predictions)
+        → Calculate average loss across 32 examples
+        → Backward pass (calculate gradients)
+        → Update weights
+
+Step 2: Take examples 33-64
+        → Repeat...
+
+... (312 steps to go through all data = 1 epoch)
+```
+
+### Mini-Batch Gradient Descent:
+
+In practice, most training uses **mini-batch gradient descent** - a compromise between single-example and full-dataset updates:
+
+| Type | Batch Size | Pros | Cons |
+|------|-----------|------|------|
+| **Stochastic (SGD)** | 1 | Fast updates, good for online learning | Very noisy gradients |
+| **Mini-Batch** | 32-512 | Good balance of speed and stability | Most common choice |
+| **Full Batch** | All data | Most stable gradients | Slow, memory-intensive |
+
+### Key Point:
+
+Batch size is a **hyperparameter** (a setting you choose before training, not something the model learns). Choosing the right batch size affects training speed, stability, and final model quality.
+
+---
+
+<a id="step-13-loss-function-measuring-how-wrong-the-model-is"></a>
+## Step 13: Loss Function - Measuring How Wrong the Model Is 📏
+
+### What is a Loss Function?
+
+A **loss function** (also called a cost function or objective function) measures **how wrong** the model's predictions are. The goal of training is to minimize this loss.
+
+### Simple Analogy:
+
+Think of a dartboard:
+- **Bullseye** = Perfect prediction (loss = 0)
+- **Outer ring** = Bad prediction (loss = high)
+- The loss function measures how far your dart landed from the bullseye
+
+### Cross-Entropy Loss (What LLMs Use):
+
+LLMs use **Cross-Entropy Loss** because they predict probability distributions over the vocabulary.
+
+**How it works:**
+
+1. Model predicts probabilities for each possible next token:
+```
+Model's prediction for next token after "The cat":
+  "sat"  → 0.35 (35%)
+  "ran"  → 0.25 (25%)
+  "is"   → 0.15 (15%)
+  "dog"  → 0.05 (5%)
+  ... (50,000+ other tokens share remaining 20%)
+```
+
+2. The actual answer is "sat" (probability should be 1.0 for "sat", 0.0 for everything else)
+
+3. Cross-entropy measures the difference:
+```
+Loss = -log(predicted probability of correct token)
+     = -log(0.35)
+     = 1.05  (lower is better!)
+```
+
+4. If the model had predicted "sat" with 0.90 probability:
+```
+Loss = -log(0.90) = 0.10  (much better!)
+```
+
+### Why Cross-Entropy?
+
+1. **Perfect for classification:** LLMs classify the next token from a vocabulary of 50,000+ options
+2. **Penalizes confident wrong answers:** If the model says "airplane" with 90% confidence when the answer is "sat", the loss is very high
+3. **Rewards confident correct answers:** If the model says "sat" with 90% confidence, the loss is very low
+4. **Differentiable:** Can calculate gradients for backpropagation (needed for learning)
+
+### Loss During Training:
+
+```
+Epoch 1:  Loss = 8.5  (random guessing among 50,000 tokens)
+Epoch 10: Loss = 4.2  (starting to learn patterns)
+Epoch 50: Loss = 2.1  (getting good at predictions)
+Epoch 100: Loss = 1.5  (well-trained model)
+```
+
+The loss decreases over time as the model learns better patterns!
+
+### Key Point:
+
+The loss function is the **compass** for training. It tells the model "how wrong you are" so gradient descent knows which direction to adjust the weights. Without a loss function, the model has no way to know if it's improving.
+
+---
+
+<a id="step-14-gradient-descent-and-backpropagation-how-it-learns"></a>
+## Step 14: Gradient Descent & Backpropagation - How It Learns 📉
 
 ### What is Gradient Descent?
 
-**Gradient Descent** is the algorithm that tells the model **how to adjust weights** to learn better.
+**Gradient Descent** is the algorithm that tells the model **how to adjust weights** to reduce the loss (error).
 
 ### Simple Analogy:
 
@@ -1764,14 +1908,14 @@ Imagine you're blindfolded on a hill and want to reach the bottom (lowest error)
 
 ### The Math (Simplified):
 
-**Error Function (Loss):**
+**Loss Function:**
 ```
-Error = (Prediction - Actual Answer)²
+Loss = CrossEntropy(Prediction, Actual Token)
 ```
 
 **Gradient:**
 ```
-Gradient = How much error changes when weight changes
+Gradient = How much loss changes when a weight changes
 ```
 
 **Weight Update:**
@@ -1785,13 +1929,53 @@ New Weight = Old Weight - (Learning Rate × Gradient)
 - Weight: 0.5
 - Prediction: "dog" (wrong!)
 - Actual: "cat"
-- Error: High
+- Loss: High
 
 **After gradient descent:**
 - Calculate: "Weight should increase"
 - Adjust: Weight = 0.5 → 0.7
 - New prediction: "cat" (correct!)
-- Error: Lower!
+- Loss: Lower!
+
+### Backpropagation: How Gradients Flow
+
+**Backpropagation** (short for "backward propagation of errors") is the algorithm that calculates gradients for every weight in the network. It's how the model figures out which weights to adjust and by how much.
+
+#### How It Works:
+
+1. **Forward Pass:** Data flows forward through the network (Input → Embeddings → Transformer Blocks → Output)
+2. **Calculate Loss:** Compare prediction with actual answer
+3. **Backward Pass:** Errors flow backward through the network, calculating gradients at each layer
+
+```
+Forward Pass (left to right):
+Input → [Embeddings] → [Block 1] → [Block 2] → ... → [Output] → Loss
+
+Backward Pass (right to left):
+Input ← [Embeddings] ← [Block 1] ← [Block 2] ← ... ← [Output] ← Loss
+         ↑ gradients    ↑ gradients  ↑ gradients         ↑ gradients
+```
+
+#### The Chain Rule:
+
+Backpropagation uses the **chain rule** from calculus to propagate gradients:
+
+```
+If: Output depends on Layer 3, which depends on Layer 2, which depends on Layer 1
+
+Then: Gradient at Layer 1 = 
+  (How Output changes with Layer 3) ×
+  (How Layer 3 changes with Layer 2) ×
+  (How Layer 2 changes with Layer 1)
+```
+
+**Simple analogy:** If you turn a small gear (Layer 1), it turns a medium gear (Layer 2), which turns a large gear (Layer 3). The chain rule tells you: "If I turn the small gear by 1 degree, how much does the large gear turn?"
+
+#### Why Backpropagation Matters:
+
+- A model like GPT-3 has **175 billion weights**
+- Backpropagation efficiently calculates gradients for ALL of them in one backward pass
+- Without it, we'd need to test each weight individually (impossibly slow)
 
 ### Learning Rate:
 
@@ -1818,13 +2002,194 @@ Error
 
 ### Summary:
 
+- **Loss Function** = Measures how wrong the model is (the compass)
 - **Weights** = What the model learns (the knowledge)
 - **Gradient Descent** = How it learns (the learning algorithm)
+- **Backpropagation** = How gradients are calculated (the chain rule)
+- **Learning Rate** = How big the learning steps are
 
 ---
 
-<a id="step-13-in-context-learning-pattern-completion"></a>
-## Step 13: In-Context Learning & Pattern Completion 🎓
+<a id="step-15-output-projection-from-hidden-states-to-words"></a>
+## Step 15: Output Projection - From Hidden States to Words 🔄
+
+### The Problem:
+
+After the final Transformer block, the model has a **hidden state** vector for each token position. For GPT-2, this is a 768-dimensional vector. But we need **probabilities over the entire vocabulary** (50,257 tokens for GPT-2).
+
+How do we go from a 768-dimensional vector to 50,257 probabilities?
+
+### The Solution: Output Projection (Unembedding)
+
+The **output projection layer** (also called the **unembedding layer** or **language model head**) is a linear transformation that converts the final hidden state into scores for every token in the vocabulary.
+
+### How It Works:
+
+**Step 1: Final Hidden State**
+```
+After all Transformer blocks:
+Hidden state for last position: [0.3, -0.1, 0.7, ...]  (768 dimensions)
+```
+
+**Step 2: Linear Projection**
+```
+Logits = Hidden State × Unembedding Matrix
+         [1 × 768]    × [768 × 50,257]
+         = [1 × 50,257]  ← One score per vocabulary token!
+```
+
+**Step 3: Softmax**
+```
+Logits:        [8.5, 7.2, 6.1, 4.3, -2.1, ...]  (raw scores)
+                ↓ (softmax)
+Probabilities: [0.35, 0.28, 0.15, 0.08, 0.001, ...]  (sum to 1.0)
+```
+
+### Weight Tying (An Interesting Optimization):
+
+Many models (including GPT-2) **share weights** between the embedding layer and the output projection layer:
+
+```
+Embedding:        Token ID → Vector  (lookup: [50,257 × 768])
+Output Projection: Vector → Token ID  (multiply: [768 × 50,257])
+```
+
+These are the **same matrix**, just used in opposite directions! This is called **weight tying** and it:
+- Reduces the number of parameters
+- Improves training (embeddings and output projection learn together)
+- Makes intuitive sense: the same space that represents word meanings is used to predict words
+
+### Visual:
+
+```
+Final Transformer Block Output
+  ↓
+[Hidden State: 768 dimensions]
+  ↓
+Output Projection (× Unembedding Matrix)
+  ↓
+[Logits: 50,257 scores]
+  ↓
+Softmax
+  ↓
+[Probabilities: 50,257 values summing to 1.0]
+  ↓
+Select Next Token
+```
+
+### Key Point:
+
+The output projection is the bridge between the model's internal understanding (hidden states) and the actual words it produces. Without it, the model would have rich internal representations but no way to convert them back into language.
+
+---
+
+<a id="step-16-temperature-and-sampling-how-the-model-chooses-words"></a>
+## Step 16: Temperature & Sampling - How the Model Chooses Words 🎲
+
+### The Problem:
+
+After softmax, the model has probabilities for every token. But how does it **choose** which token to output?
+
+### Greedy Decoding (Simplest):
+
+Always pick the token with the highest probability:
+
+```
+Probabilities: "on" (35%), "down" (28%), "there" (15%), ...
+Greedy choice: "on" (always picks the highest)
+```
+
+**Problem:** Greedy decoding is predictable and repetitive. The model always picks the same word, leading to boring, repetitive text.
+
+### Temperature:
+
+**Temperature** controls how "creative" or "random" the model's choices are by adjusting the probability distribution before sampling.
+
+**How it works:**
+
+```
+Logits (before softmax): [8.5, 7.2, 6.1, 4.3]
+
+Temperature = 1.0 (default):
+  Softmax([8.5, 7.2, 6.1, 4.3]) → [0.35, 0.28, 0.15, 0.08]
+  (Normal distribution)
+
+Temperature = 0.5 (more focused):
+  Softmax([17.0, 14.4, 12.2, 8.6]) → [0.65, 0.22, 0.08, 0.01]
+  (Sharper - top choice dominates)
+
+Temperature = 1.5 (more creative):
+  Softmax([5.7, 4.8, 4.1, 2.9]) → [0.30, 0.25, 0.20, 0.12]
+  (Flatter - more equal chances)
+```
+
+**The formula:** Divide logits by temperature before softmax:
+```
+Adjusted Logits = Logits / Temperature
+```
+
+| Temperature | Effect | Use Case |
+|-------------|--------|----------|
+| **0.0** | Always pick top token (greedy) | Factual answers, code |
+| **0.1-0.5** | Very focused, predictable | Technical writing |
+| **0.7-1.0** | Balanced (default) | General conversation |
+| **1.0-1.5** | More creative, varied | Creative writing, brainstorming |
+| **>2.0** | Very random, often incoherent | Rarely useful |
+
+### Top-K Sampling:
+
+Only consider the **top K** most likely tokens, then sample from those:
+
+```
+All probabilities: "on" (35%), "down" (28%), "there" (15%), "quietly" (8%), "airplane" (0.1%), ...
+
+Top-K (K=3): Only consider top 3:
+  "on" (35%), "down" (28%), "there" (15%)
+  → Renormalize: "on" (45%), "down" (36%), "there" (19%)
+  → Sample from these 3 options
+```
+
+**Why?** Prevents the model from occasionally picking very unlikely tokens (like "airplane" after "The cat sat").
+
+### Top-P (Nucleus) Sampling:
+
+Only consider tokens whose cumulative probability reaches **P**:
+
+```
+Top-P (P=0.9): Add probabilities until they sum to 0.9:
+  "on" (35%) → cumulative: 35%
+  "down" (28%) → cumulative: 63%
+  "there" (15%) → cumulative: 78%
+  "quietly" (8%) → cumulative: 86%
+  "still" (5%) → cumulative: 91% ← Stop here (exceeded 0.9)
+  
+  → Sample from these 5 tokens
+```
+
+**Why Top-P over Top-K?** Top-P adapts to the distribution. If the model is very confident (one token has 95% probability), it might only consider 1-2 tokens. If uncertain, it considers more options.
+
+### In Practice:
+
+Most LLM APIs let you control these parameters:
+
+```
+# Example (conceptual):
+response = model.generate(
+    prompt="The cat sat",
+    temperature=0.7,    # Balanced creativity
+    top_k=50,           # Consider top 50 tokens
+    top_p=0.9           # Or top 90% probability mass
+)
+```
+
+### Key Point:
+
+Temperature and sampling strategies are why the same prompt can produce different outputs each time. They control the balance between **predictability** (low temperature) and **creativity** (high temperature).
+
+---
+
+<a id="step-17-in-context-learning-pattern-completion"></a>
+## Step 17: In-Context Learning & Pattern Completion 🎓
 
 ### What is In-Context Learning?
 
@@ -1923,25 +2288,34 @@ In-context learning is **using** what was learned during training, not learning 
    X: [101, 102] → Y: [103]  (predict "sat" from "The cat")
    X: [101, 102, 103] → Y: [104]  (predict "on" from "The cat sat")
    
-9. Feed to Transformer Blocks
-   Input → [Block 1: Attention + FFN] → [Block 2] → ... → [Block N] → Output
+9. Group into batches
+   Batch of 32 training examples processed together
    
-   Each block:
-   - Multi-Head Self-Attention (Q, K, V)
-   - Residual connections
-   - Layer normalization
-   - Feed-Forward Network
+10. Feed to Transformer Blocks
+    Input → [Block 1: Attention + FFN] → [Block 2] → ... → [Block N] → Output
    
-10. Calculate error (loss)
-    Error = CrossEntropy(Prediction, Actual Token)
+    Each block:
+    - Multi-Head Self-Attention (Q, K, V)
+    - Residual connections
+    - Layer normalization
+    - Feed-Forward Network (GELU activation)
+   
+11. Output Projection
+    Hidden state → Unembedding matrix → Logits → Softmax → Probabilities
     
-11. Gradient Descent (Backpropagation)
-    Calculate gradients for all weights
-    Adjust weights to reduce error
+12. Calculate loss
+    Loss = CrossEntropy(Predicted Probabilities, Actual Token)
     
-12. Repeat millions of times!
+13. Backpropagation
+    Calculate gradients for all weights (backward pass through entire network)
     
-13. Model learns:
+14. Gradient Descent
+    Adjust all weights to reduce loss
+    New Weight = Old Weight - (Learning Rate × Gradient)
+    
+15. Repeat millions of times!
+    
+16. Model learns:
     - Embeddings (word meanings)
     - Attention patterns (relationships)
     - Language structure
@@ -1962,16 +2336,21 @@ In-context learning is **using** what was learned during training, not learning 
    - Each block refines understanding
    - Causal masking ensures only past tokens are seen
    
-5. Final layer outputs probability distribution
+5. Output projection: Hidden state → Logits
+   
+6. Softmax: Logits → Probability distribution
    Over all possible next tokens
    
-6. Sample or pick most likely token: "mat"
+7. Apply temperature & sampling strategy
+   (temperature, top-k, top-p)
    
-7. Add to sequence and repeat!
+8. Select next token: "mat"
+   
+9. Add to sequence and repeat!
    "The cat sat on the mat" → predict next → "that" → ...
    
-8. In-context learning helps it
-   understand patterns in the prompt!
+10. In-context learning helps it
+    understand patterns in the prompt!
 ```
 
 ---
@@ -2005,10 +2384,13 @@ In-context learning is **using** what was learned during training, not learning 
 
 ### Training Steps:
 11. **X-Y Pairs:** Input and target for learning (with causal masking)
-12. **Neural Network:** Transformer architecture with stacked blocks
-13. **Weights:** What the model learns (embeddings, attention weights, FFN weights)
-14. **Gradient Descent:** How the model learns (adjusting weights via backpropagation)
-15. **In-Context Learning:** Using learned patterns during inference
+12. **Batch Size:** Processing multiple examples at once for efficient, stable training
+13. **Loss Function (Cross-Entropy):** Measures how wrong the model's predictions are
+14. **Backpropagation:** Calculates gradients for all weights using the chain rule
+15. **Gradient Descent:** Adjusts weights to reduce loss
+16. **Output Projection:** Converts hidden states to vocabulary probabilities (unembedding)
+17. **Temperature & Sampling:** Controls how the model chooses tokens (creativity vs predictability)
+18. **In-Context Learning:** Using learned patterns during inference
 
 ---
 
@@ -2051,12 +2433,28 @@ Add Positional Encoding
 │  [Transformer Block N]              │
 │         ↓                           │
 │  Output Layer (Vocabulary Size)     │
+│                                     │
+│  Note: Weights (learned parameters) │
+│  exist throughout the model:        │
+│  Embeddings, Attention (Q,K,V),     │
+│  FFN, and Layer Norm all contain    │
+│  weights that are updated during    │
+│  training via gradient descent.     │
 └─────────────────────────────────────┘
   ↓
-[Weights: Embeddings, Attention, FFN]
+Output Projection (Logits → Softmax → Probabilities)
+  ↓
+
+--- During Training ---
+Loss Function (Cross-Entropy)
   ↓
 Gradient Descent (Backpropagation)
   ↓
+Update All Weights Throughout the Model
+  ↓
+Repeat Until Trained!
+
+--- During Inference ---
 Trained Transformer Model
   ↓
 In-Context Learning (Pattern Recognition)
@@ -2095,6 +2493,15 @@ The concepts you've learned here i.e. attention, embeddings, Transformer blocks,
 ✅ **Layer Normalization** - Stabilizing training  
 ✅ **Scaled Dot-Product Attention** - The attention formula  
 ✅ **Autoregressive Generation** - How GPT models work (decoder-only)
+
+### Additional Topics Covered
+
+✅ **Loss Function (Cross-Entropy)** - How the model measures errors  
+✅ **Backpropagation** - How gradients flow backward through the network  
+✅ **Batch Size** - Why models train in groups  
+✅ **Output Projection (Unembedding)** - Converting hidden states to words  
+✅ **Temperature & Sampling** - How models choose tokens (top-k, top-p)  
+✅ **Weight Tying** - Sharing weights between embedding and output layers
 
 ### Where to Go Next
 
