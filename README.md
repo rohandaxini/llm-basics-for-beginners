@@ -53,7 +53,7 @@ Let's begin!
 - [Step 11: Weights - What the Model Learns](#step-11-weights-what-the-model-learns)
 - [What is a Model in LLMs? (Architecture vs. Weights Explained)](#what-is-a-model-in-llms-architecture-vs-weights-explained)
 
-### Training & Learning (12-16)
+### Training & Learning (12-17)
 - [Step 12: Batch Size - Learning in Groups](#step-12-batch-size-learning-in-groups)
 - [Step 13: Loss Function - Measuring How Wrong the Model Is](#step-13-loss-function-measuring-how-wrong-the-model-is)
 - [Step 14: Gradient Descent & Backpropagation - How It Learns](#step-14-gradient-descent-and-backpropagation-how-it-learns)
